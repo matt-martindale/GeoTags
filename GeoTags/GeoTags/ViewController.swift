@@ -7,14 +7,34 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController {
 
+    // MARK: - IBOutlets
+    @IBOutlet weak var mapView: MKMapView!
+    
+    // MARK: - Properties
+    private let locationManager = CLLocationManager()
+    private var userTrackingButton: MKUserTrackingButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        setupViews()
     }
 
+    // MARK: - Methods
+    private func setupViews() {
+        locationManager.requestWhenInUseAuthorization()
+        // setup Tracking Button
+        userTrackingButton = MKUserTrackingButton(mapView: mapView)
+        userTrackingButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(userTrackingButton)
+        NSLayoutConstraint.activate([
+            userTrackingButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -20),
+            userTrackingButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -20)
+        ])
+    }
 
 }
 
